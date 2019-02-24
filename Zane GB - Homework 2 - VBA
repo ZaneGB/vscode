@@ -1,0 +1,182 @@
+
+Sub Stock_tracker()
+
+'Easy and medium Challenges (Hard challenge follows)
+
+'Define variables
+
+Dim printrow As Integer
+
+Dim ticker As String
+
+Dim oldvolume As Double
+Dim newvolume As Double
+
+Dim priceopen As Double
+Dim priceclose As Double
+Dim pricedif As Double
+Dim percentchange As Double
+
+' Label rows and columns
+
+Range("I1") = "Ticker"
+Range("J1") = "Year Diff"
+Range("K1") = "% Change"
+Range("L1") = "Total Volume"
+
+' Set counters
+
+oldvolume = 0
+newvolume = 0
+
+printrow = 2
+
+priceopen = Cells(2, 3).Value
+
+'Sum annual volume for each unique ticker symbol
+
+    For i = 2 To 760192
+    
+        ticker = Cells(i, 1).Value
+              
+        oldvolume = Cells(i, 7).Value
+        
+        newvolume = oldvolume + newvolume
+        
+        
+    If Cells(i + 1, 1).Value <> ticker Then
+    
+        priceclose = Cells(i, 6).Value
+        
+        pricedif = priceclose - priceopen
+               
+        If priceopen = 0 Then
+            Cells(printrow, 11).Value = 0
+            
+        ElseIf priceopen <> 0 Then
+            percentchange = pricedif / priceopen
+        
+        End If
+        
+        Cells(printrow, 9).Value = ticker
+        Cells(printrow, 10).Value = pricedif
+        Cells(printrow, 11).Value = percentchange
+        Cells(printrow, 12).Value = newvolume
+        
+        printrow = printrow + 1
+        
+        oldvolume = 0
+        newvolume = 0
+        priceopen = Cells(i + 1, 3).Value
+        
+    End If
+    
+    Next i
+    
+    
+' Hard Challenge
+
+
+' Define variables
+
+    Dim greatinc As Double
+    Dim greatdec As Double
+       
+    Dim incticker As String
+    Dim decticker As String
+    
+    Dim greatvol As Long
+    Dim volticker As String
+       
+    
+' Label rows and columns
+    
+    Range("O1") = "Ticker"
+    Range("P1") = "Amount"
+    Range("N2") = "Greatest % Inc"
+    Range("N3") = "Greatest % Dec"
+    Range("N4") = "Greatest Volume"
+    
+ 'Find stock with largest volume
+ 
+    decticker = Cells(2, 9).Value
+    incticker = Cells(2, 9).Value
+    volticker = Cells(2, 9).Value
+        
+    greatinc = Cells(2, 11).Value
+    greatdec = Cells(2, 11).Value
+        
+    greatvolume = Cells(2, 12).Value
+        
+ 
+    For j = 3 To 10000
+    
+' I use my own method (if ticker = "") to determine last row. I use an artifically high number (10,000) in the for loop
+              
+        If Cells(j, 9).Value = "" Then
+        
+        Cells(4, 15).Value = volticker
+        Cells(4, 16).Value = greatvolume
+           
+    Exit For
+        
+        ElseIf Cells(j, 12).Value > greatvolume Then
+        
+            greatvolume = Cells(j, 12).Value
+            volticker = Cells(j, 9).Value
+            
+        End If
+        
+        Cells(4, 15).Value = volticker
+        Cells(4, 16).Value = greatvol
+    
+    
+'Determine stocks with greatest % price increase and worst % decline
+        
+       If Cells(j, 9).Value = "" Then
+       
+'print results
+       
+        Cells(2, 15).Value = incticker
+        Cells(3, 15).Value = decticker
+        Cells(2, 16).Value = greatinc
+        Cells(3, 16).Value = greatdec
+                      
+       Exit For
+       
+        
+        ElseIf Cells(j, 11).Value <= greatdec Then
+        
+            decticker = Cells(j, 9).Value
+            greatdec = Cells(j, 11).Value
+            
+        ElseIf Cells(j, 11).Value > greatinc Then
+        
+            incticker = Cells(j, 9).Value
+            greatinc = Cells(j, 11).Value
+            
+        End If
+        
+'print results
+       
+        Cells(2, 15).Value = incticker
+        Cells(3, 15).Value = decticker
+        Cells(2, 16).Value = greatinc
+        Cells(3, 16).Value = greatdec
+        
+Next j
+    
+End Sub
+        
+    
+                   
+    
+
+ 
+        
+                
+
+
+    
+
+
